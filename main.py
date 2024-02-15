@@ -9,7 +9,7 @@ phone_regex = r'\b8\s?\(\d{3}\)\s?\d{3}-\d{2}-\d{2}\b'
 
 
 
-    # Regex search - not ideal
+# Regex search - not ideal
 def regex_search():
     global all_phones, phone_regex
     phone_match = re.findall(phone_regex, source)
@@ -17,12 +17,12 @@ def regex_search():
     # print(phone_match, 'mm')
 
 
-    # XPath search
+ # XPath search
 def xpath_search():
     global all_phones
     phones = driver.find_elements("xpath", "//a [starts-with (@href, 'tel:')]")
     for phone in phones:
-        # print(phone.text, 'xxx')
+        print(phone.href, 'xxx')
 
         all_phones.append(phone.text)
 
