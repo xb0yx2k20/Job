@@ -13,3 +13,4 @@
 pip install selenium webdriver-manager 
 ```
 Далее запустите файл main.py, все результаты будут выведени в консоли. 
+**У вас должен быть установлен Chrome**
