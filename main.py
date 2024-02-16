@@ -17,17 +17,16 @@ def regex_search():
     # print(phone_match, 'mm')
 
 
- # XPath search
+# XPath search
 def xpath_search():
     global all_phones
     phones = driver.find_elements("xpath", "//a [starts-with (@href, 'tel:')]")
     for phone in phones:
-        print(phone.href, 'xxx')
-
-        all_phones.append(phone.text)
+        all_phones.append(phone.get_attribute("href")[4:])
 
 
-    # Click search
+
+# Click search
 def click_search():
     global all_phones
     hidden_phones = driver.find_elements("xpath", "//* [contains (@class, 'phone') and contains (@class, 'link')]")
@@ -37,13 +36,23 @@ def click_search():
                 match = re.match(phone_regex, phone.text)
                 if (match):
                     all_phones.append(phone.text)
-                    print(phone.text, "click")
+                    # print(phone.text, "click")
                 else:
+                    try:
+                        phone.click()
+                        xpath_search()
+                    except:
+                        continue
+            except:
+                try:
+
                     phone.click()
                     xpath_search()
-            except:
-                phone.click()
-                xpath_search()
+                except:
+                    continue
+        else:
+            print("ItWorksSoIWontTouchThis")
+
                         
 if __name__ == '__main__':
     service = Service(executable_path=ChromeDriverManager().install())
@@ -59,6 +68,7 @@ if __name__ == '__main__':
     for url in urls:
         driver.get(url)
         source = driver.page_source
+        print()
 
         print("URL:", url)
 
@@ -66,7 +76,6 @@ if __name__ == '__main__':
         regex_search()
         xpath_search()
         click_search()
-        print()
         all_phones = list(set(all_phones))
 
         for phone in all_phones:
